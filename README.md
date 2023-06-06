@@ -25,6 +25,16 @@ Before using the convenience script, make sure you have the following prerequisi
 
 This script is meant to be included within our devops pipeline. Examples for common DevOps platforms are below
 
+### Installation
+
+1. Create directory where you want to house this script
+	
+	```shell
+	mkdir .azure-devops && cd .azure-devops
+2. Download convenience script
+
+	```shell
+	wget https://raw.githubusercontent.com/mobomo/kubernetes_drupal_deployscript/main/deploy.sh
 ### Azure DevOps
 1. Add "Shell Exec" task to Release Definition
 

@@ -43,9 +43,9 @@ This script is meant to be included within our devops pipeline. Examples for com
 	```shell
 	export BUILD_ID=$(Build.BuildID)
 	export NAMESPACE=dev
-	export CONTAINER_REGISTRY=bassproonesourceonesourcedevacr
+	export CONTAINER_REGISTRY=somecontainerregistry.azurecr.us
 	export REPO=drupal
-	export SUBSCRIPTION_ID=6fdedbe5-39ac-495a-807c-c5626c02e986
+	export SUBSCRIPTION_ID=1234
 
 	cd $(System.DefaultWorkingDirectory)/CI/CI/s/
 
@@ -63,9 +63,9 @@ This script is meant to be included within our devops pipeline. Examples for com
 	```shell
 	export BUILD_ID=$(Build.BuildID)
 	export NAMESPACE=dev
-	export CONTAINER_REGISTRY=bassproonesourceonesourcedevacr.azurecr.io
+	export CONTAINER_REGISTRY=somecontainerregistry.azurecr.us
 	export REPO=drupal
-	export SUBSCRIPTION_ID=6fdedbe5-39ac-495a-807c-c5626c02e986
+	export SUBSCRIPTION_ID=1234
 	export REPLICA_COUNT=3
 
 	cd $(System.DefaultWorkingDirectory)/CI/CI/s/

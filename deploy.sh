@@ -5,7 +5,7 @@ set -o noglob
 # Default Values
 BUILD_ID=""
 NAMESPACE=""
-CONTAINER_REGISTRY="" ## Name of container registry
+CONTAINER_REGISTRY="" ## Name of container registry including hostname
 REPO="" ## name of repo for registry, ie $CONTAINER_REGISTRY.azurecr.io/$REPO:$BUILD_ID
 SUBSCRIPTION_ID="" ## Used for Azure to set subscription
 REGION=""
@@ -59,7 +59,9 @@ azure_cr_authenticate() {
 
 	fi
 
-	az acr login -n $CONTAINER_REGISTRY
+	$REGISTRY_NAME=$(echo "$CONTAINER_REGISTRY" | cut -d '.' -f 1)
+
+	az acr login -n $REGISTRY_NAME
 
 }
 
@@ -76,17 +78,6 @@ azure_generate_kubeconfig() {
 
 # --- set IMAGE_ID variable ----
 generate_image_tag() {
-	# fix registry if full URL is not provided for the argument
-	if [ $AZURE -eq 1 ]; then
-		# add the rest of the URL for the container registry
-		EXPECTED_VALUE=".azurecr.io"
-
-		if [[ $CONTAINER_REGISTRY != *"$EXPECTED_VALUE"* ]]; then
-			CONTAINER_REGISTRY="$CONTAINER_REGISTRY$EXPECTED_VALUE"
-		fi
-	
-	fi
-
 	IMAGE_ID=$CONTAINER_REGISTRY/$REPO:$BUILD_ID
 
 	info "image_id: ${IMAGE_ID}"

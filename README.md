@@ -34,7 +34,7 @@ This script is meant to be included within our devops pipeline. Examples for com
 2. Download convenience script
 
 	```shell
-	wget https://raw.githubusercontent.com/mobomo/kubernetes_drupal_deployscript/main/deploy.sh
+	wget https://raw.githubusercontent.com/mobomo/kubernetes_drupal_deployscript/main/deploy.sh -O deploy.sh
 ### Azure DevOps
 1. Add "Shell Exec" task to Release Definition
 

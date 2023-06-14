@@ -59,7 +59,7 @@ azure_cr_authenticate() {
 
 	fi
 
-	$REGISTRY_NAME=$(echo "$CONTAINER_REGISTRY" | cut -d '.' -f 1)
+	REGISTRY_NAME=$(echo "$CONTAINER_REGISTRY" | cut -d '.' -f 1)
 
 	az acr login -n $REGISTRY_NAME
 

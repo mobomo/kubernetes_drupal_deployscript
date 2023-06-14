@@ -14,6 +14,7 @@ REPLICA_COUNT="3" ## Set amount of replicas for the k8 deployment\
 # optional with defaults
 MAINTENANCE_WINDOW=1 ## deploy using a maintenance window. Command will use drush on the current site to enable maintenance mode, run deploy, then disable maintenance when done
 DELETE_CRON=1
+GOVCLOUD=0
 debug_level=0
 
 # script set (ie, not set from arguments)
@@ -42,12 +43,22 @@ fatal() {
     exit 1
 }
 
+azure_govcloud() {
+	az cloud set --name AzureUSGovernment
+
+}
+
 azure_authenticate() {
 	az account set --subscription $SUBSCRIPTION_ID
 
 }
 
 azure_cr_authenticate() {
+	if [ $GOVCLOUD -eq 1 ]; then
+		azure_govcloud
+
+	fi
+
 	az acr login -n $CONTAINER_REGISTRY
 
 }
@@ -192,6 +203,7 @@ entrypoint() {
 			--maintenance-window=*) MAINTENANCE_WINDOW="${arg#*=}" ;;
 			--delete-cron=*) DELETE_CRON="${arg#*=}" ;;
 			--replica-count=*) REPLICA_COUNT="${arg#*=}" ;;
+			--govcloud=*) GOVCLOUD="${arg#*=}" ;;
 			-v|--v)
 				debug_level=$((debug_level + 1))
 				shift

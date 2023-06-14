@@ -10,6 +10,7 @@ REPO="" ## name of repo for registry, ie $CONTAINER_REGISTRY.azurecr.io/$REPO:$B
 SUBSCRIPTION_ID="" ## Used for Azure to set subscription
 REGION=""
 REPLICA_COUNT="3" ## Set amount of replicas for the k8 deployment\
+RESOURCE_GROUP="" ## Used for Azure for resource group
 
 # optional with defaults
 MAINTENANCE_WINDOW=1 ## deploy using a maintenance window. Command will use drush on the current site to enable maintenance mode, run deploy, then disable maintenance when done
@@ -66,7 +67,7 @@ azure_cr_authenticate() {
 }
 
 azure_generate_kubeconfig() {
-	az aks get-credentials --resource-group onesource-$NAMESPACE --name aks-$NAMESPACE --public-fqdn
+	az aks get-credentials --resource-group $RESOURCE_GROUP --name aks-$NAMESPACE --public-fqdn
 
 }
 
@@ -190,6 +191,7 @@ entrypoint() {
 			--container-registry=*) CONTAINER_REGISTRY="${arg#*=}" ;;
 			--repo=*) REPO="${arg#*=}" ;;
 			--subscription-id=*) SUBSCRIPTION_ID="${arg#*=}" ;;
+			--resource-group=*) RESOURCE_GROUP="${arg#*=}" ;;
 			--region=*) REGION="${arg#*=}" ;;
 			--maintenance-window=*) MAINTENANCE_WINDOW="${arg#*=}" ;;
 			--delete-cron=*) DELETE_CRON="${arg#*=}" ;;
@@ -243,6 +245,7 @@ entrypoint() {
 			if [ -z "$CONTAINER_REGISTRY" ]; then missing_args+=("--container-registry"); fi
 			if [ -z "$REPO" ]; then missing_args+=("--repo"); fi
 			if [ -z "$SUBSCRIPTION_ID" ]; then missing_args+=("--subscription-id"); fi
+			if [ -z "$RESOURCE_GROUP" ]; then missing_args+=("--resource-group"); fi
 
 			# Execute function if missing_args is empty
 			if [ ${#missing_args[@]} -eq 0 ]; then deploy; fi

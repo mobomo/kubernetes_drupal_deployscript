@@ -1,6 +1,7 @@
 #!/bin/bash -e
 set -e
 set -o noglob
+set -o pipefail
 
 # Default Values
 BUILD_ID=""
